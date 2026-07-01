@@ -35,8 +35,8 @@ namespace Backend.API.Migrations
                     viability_score = table.Column<int>(type: "int", nullable: false),
                     members_by_distance = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    timestamp = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    created_at = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    timestamp = table.Column<DateTime>(type: "datetime", nullable: false),
+                    created_at = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,8 +65,8 @@ namespace Backend.API.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     latitude = table.Column<double>(type: "double", nullable: true),
                     longitude = table.Column<double>(type: "double", nullable: true),
-                    created_at = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    updated_at = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    created_at = table.Column<DateTime>(type: "datetime", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -89,8 +89,8 @@ namespace Backend.API.Migrations
                     user_id = table.Column<int>(type: "int", nullable: false),
                     favorite_restaurants = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    created_at = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    updated_at = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    created_at = table.Column<DateTime>(type: "datetime", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -122,8 +122,8 @@ namespace Backend.API.Migrations
                     open_hours = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     user_id = table.Column<int>(type: "int", nullable: false),
-                    created_at = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    updated_at = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    created_at = table.Column<DateTime>(type: "datetime", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>
                 {
