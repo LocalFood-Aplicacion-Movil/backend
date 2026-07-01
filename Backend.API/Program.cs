@@ -139,7 +139,7 @@ app.UseSwaggerUI(options =>
 // CORS MUST be early
 app.UseCors("AllowAll");
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection(); // disabled for local dev (emulator uses HTTP)
 
 app.UseAuthentication();
 app.UseAuthorization();

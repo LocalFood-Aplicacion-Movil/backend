@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Backend.API.Groups.Domain.Model.Aggregates;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,7 +41,7 @@ public static class GroupsEntityConfiguration
             entity.Property(e => e.Phone).HasMaxLength(20);
             entity.Property(e => e.OpenHours).HasMaxLength(100);
             entity.Property(e => e.UserId).IsRequired();
-            
+
             entity.OwnsOne(e => e.Address, addressBuilder =>
             {
                 addressBuilder.Property(a => a.Street).HasMaxLength(255);
@@ -55,20 +56,23 @@ public static class GroupsEntityConfiguration
             entity.Property(e => e.RestaurantId).IsRequired();
             entity.Property(e => e.RestaurantName).HasMaxLength(100);
             
-            entity.OwnsMany(e => e.GroupMembers, colleagueBuilder =>
-            {
-                colleagueBuilder.ToJson();
-            });
-            
-            entity.OwnsOne(e => e.CenterPoint, centerPointBuilder =>
-            {
-                centerPointBuilder.ToJson();
-            });
-            
-            entity.OwnsMany(e => e.MembersByDistance, memberBuilder =>
-            {
-                memberBuilder.ToJson();
-            });
+            entity.Property(e => e.GroupMembers)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
+                    v => JsonSerializer.Deserialize<List<ColleagueInfo>>(v, (JsonSerializerOptions?)null) ?? new())
+                .HasColumnType("json");
+
+            entity.Property(e => e.CenterPoint)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
+                    v => JsonSerializer.Deserialize<CenterPoint>(v, (JsonSerializerOptions?)null) ?? new())
+                .HasColumnType("json");
+
+            entity.Property(e => e.MembersByDistance)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
+                    v => JsonSerializer.Deserialize<List<MemberDistance>>(v, (JsonSerializerOptions?)null) ?? new())
+                .HasColumnType("json");
         });
     }
 }
