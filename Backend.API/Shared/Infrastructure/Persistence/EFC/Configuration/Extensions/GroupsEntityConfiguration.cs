@@ -27,6 +27,7 @@ public static class GroupsEntityConfiguration
             
             entity.OwnsOne(e => e.Address, addressBuilder =>
             {
+                addressBuilder.WithOwner().HasForeignKey("Id");
                 addressBuilder.Property(a => a.Street).HasMaxLength(255);
                 addressBuilder.Property(a => a.City).HasMaxLength(100);
             });
@@ -44,6 +45,7 @@ public static class GroupsEntityConfiguration
 
             entity.OwnsOne(e => e.Address, addressBuilder =>
             {
+                addressBuilder.WithOwner().HasForeignKey("Id");
                 addressBuilder.Property(a => a.Street).HasMaxLength(255);
                 addressBuilder.Property(a => a.City).HasMaxLength(100);
             });
