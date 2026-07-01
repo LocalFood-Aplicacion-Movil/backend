@@ -62,19 +62,19 @@ public static class GroupsEntityConfiguration
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
                     v => JsonSerializer.Deserialize<List<ColleagueInfo>>(v, (JsonSerializerOptions?)null) ?? new())
-                .HasColumnType("json");
+                .HasColumnType("longtext");
 
             entity.Property(e => e.CenterPoint)
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
                     v => JsonSerializer.Deserialize<CenterPoint>(v, (JsonSerializerOptions?)null) ?? new())
-                .HasColumnType("json");
+                .HasColumnType("longtext");
 
             entity.Property(e => e.MembersByDistance)
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
                     v => JsonSerializer.Deserialize<List<MemberDistance>>(v, (JsonSerializerOptions?)null) ?? new())
-                .HasColumnType("json");
+                .HasColumnType("longtext");
         });
     }
 }

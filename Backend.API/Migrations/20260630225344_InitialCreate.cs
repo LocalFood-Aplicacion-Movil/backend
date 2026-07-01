@@ -25,15 +25,15 @@ namespace Backend.API.Migrations
                     restaurant_id = table.Column<int>(type: "int", nullable: false),
                     restaurant_name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    group_members = table.Column<string>(type: "json", nullable: false)
+                    group_members = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    center_point = table.Column<string>(type: "json", nullable: false)
+                    center_point = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     distance = table.Column<double>(type: "double", nullable: false),
                     average_distance = table.Column<double>(type: "double", nullable: false),
                     max_spread = table.Column<double>(type: "double", nullable: false),
                     viability_score = table.Column<int>(type: "int", nullable: false),
-                    members_by_distance = table.Column<string>(type: "json", nullable: false)
+                    members_by_distance = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     timestamp = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     created_at = table.Column<DateTime>(type: "datetime(6)", nullable: false)
