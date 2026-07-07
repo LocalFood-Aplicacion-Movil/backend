@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using System.Security.Claims;
 using Backend.API.Groups.Domain.Model.Aggregates;
 using Backend.API.Groups.Domain.Repositories;
 using Backend.API.IAM.Infrastructure.Pipeline.Middleware.Attributes;
@@ -19,7 +20,7 @@ public class GroupsController(IGroupRepository groupRepository) : ControllerBase
     [SwaggerResponse(StatusCodes.Status200OK, "Groups retrieved successfully")]
     public async Task<IActionResult> GetAll()
     {
-        var userId = int.Parse(User.FindFirst("sub")?.Value ?? "0");
+        var userId = int.Parse(User.FindFirst(ClaimTypes.Sid)?.Value ?? "0");
         var groups = await groupRepository.GetAllByUserIdAsync(userId);
         return Ok(groups);
     }
@@ -41,7 +42,7 @@ public class GroupsController(IGroupRepository groupRepository) : ControllerBase
     [SwaggerResponse(StatusCodes.Status201Created, "Group created successfully")]
     public async Task<IActionResult> Create([FromBody] CreateGroupRequest request)
     {
-        var userId = int.Parse(User.FindFirst("sub")?.Value ?? "0");
+        var userId = int.Parse(User.FindFirst(ClaimTypes.Sid)?.Value ?? "0");
         var group = new Group(request.Name, request.Description, request.Color, userId);
         var createdGroup = await groupRepository.AddAsync(group);
         return CreatedAtAction(nameof(GetById), new { id = createdGroup.Id }, createdGroup);

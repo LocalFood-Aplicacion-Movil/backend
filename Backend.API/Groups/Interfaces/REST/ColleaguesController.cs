@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using System.Security.Claims;
 using Backend.API.Groups.Domain.Model.Aggregates;
 using Backend.API.Groups.Domain.Repositories;
 using Backend.API.IAM.Infrastructure.Pipeline.Middleware.Attributes;
@@ -18,7 +19,7 @@ public class ColleaguesController(IColleagueRepository colleagueRepository) : Co
     [SwaggerOperation(Summary = "Get all colleagues for the authenticated user")]
     public async Task<IActionResult> GetAll()
     {
-        var userId = int.Parse(User.FindFirst("sub")?.Value ?? "0");
+        var userId = int.Parse(User.FindFirst(ClaimTypes.Sid)?.Value ?? "0");
         var colleagues = await colleagueRepository.GetAllByUserIdAsync(userId);
         return Ok(colleagues);
     }
@@ -37,7 +38,7 @@ public class ColleaguesController(IColleagueRepository colleagueRepository) : Co
     [SwaggerOperation(Summary = "Create a new colleague")]
     public async Task<IActionResult> Create([FromBody] CreateColleagueDto request)
     {
-        var userId = int.Parse(User.FindFirst("sub")?.Value ?? "0");
+        var userId = int.Parse(User.FindFirst(ClaimTypes.Sid)?.Value ?? "0");
         var colleague = new Colleague(request.Name, request.Email, request.Phone, userId, request.GroupId)
         {
             IsLeader = request.IsLeader

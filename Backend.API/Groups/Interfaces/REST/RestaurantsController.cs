@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using System.Security.Claims;
 using Backend.API.Groups.Domain.Model.Aggregates;
 using Backend.API.Groups.Domain.Repositories;
 using Backend.API.IAM.Infrastructure.Pipeline.Middleware.Attributes;
@@ -18,7 +19,7 @@ public class RestaurantsController(IRestaurantRepository restaurantRepository) :
     [SwaggerOperation(Summary = "Get all restaurants for the authenticated user")]
     public async Task<IActionResult> GetAll()
     {
-        var userId = int.Parse(User.FindFirst("sub")?.Value ?? "0");
+        var userId = int.Parse(User.FindFirst(ClaimTypes.Sid)?.Value ?? "0");
         var restaurants = await restaurantRepository.GetAllByUserIdAsync(userId);
         return Ok(restaurants);
     }
@@ -37,7 +38,7 @@ public class RestaurantsController(IRestaurantRepository restaurantRepository) :
     [SwaggerOperation(Summary = "Create a new restaurant")]
     public async Task<IActionResult> Create([FromBody] CreateRestaurantDto request)
     {
-        var userId = int.Parse(User.FindFirst("sub")?.Value ?? "0");
+        var userId = int.Parse(User.FindFirst(ClaimTypes.Sid)?.Value ?? "0");
         var restaurant = new Restaurant(request.Name, request.Cuisine, request.Rating, request.PriceRange, userId)
         {
             Phone = request.Phone,

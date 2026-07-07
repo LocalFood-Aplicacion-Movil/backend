@@ -32,7 +32,11 @@ public class CalculationsController(
     [SwaggerOperation(Summary = "Get a specific calculation by ID")]
     public async Task<IActionResult> GetById(int id)
     {
-        return NotFound(new { message = "Calculation not found" });
+        var calculation = await calculationRepository.GetByIdAsync(id);
+        if (calculation == null)
+            return NotFound(new { message = "Calculation not found" });
+
+        return Ok(calculation);
     }
 
     [HttpPost]
@@ -112,7 +116,8 @@ public class CalculationsController(
     {
         var distanceScore = Math.Max(0, 100 - (averageDistance * 10));
         var spreadScore = Math.Max(0, 100 - (maxSpread * 5));
-        return (int)Math.Round((distanceScore * 0.6 + spreadScore * 0.4) / 1, MidpointRounding.AwayFromZero);
+        var score = (int)Math.Round(distanceScore * 0.6 + spreadScore * 0.4, MidpointRounding.AwayFromZero);
+        return Math.Clamp(score, 0, 100);
     }
 }
 
